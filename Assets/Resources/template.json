@@ -1,0 +1,19 @@
+{
+  "name": "Example Pack",
+  "mcVersion": "1.19.2",
+  "loader": {
+    "name": "FabricMC",
+    "url": "https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.11.1/fabric-installer-0.11.1.jar",
+    "args": "client"
+  },
+  "mods": [
+    {
+      "name": "Fabric API",
+      "url": "https://cdn.modrinth.com/data/P7dR8mSH/versions/9nx74dYD/fabric-api-0.64.0%2B1.19.2.jar"
+    },
+    {
+        "name": "Mod Menu",
+        "url": "https://cdn.modrinth.com/data/mOgUt4GM/versions/4.0.6/modmenu-4.0.6.jar"
+    }
+  ]
+}
