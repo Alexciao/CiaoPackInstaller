@@ -46,15 +46,15 @@ public class FileManager : MonoBehaviour
 
 	public string GetMinecraftDirectory()
 	{
-		if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsServer)
+		if (GetOS() == OS.Windows)
 		{
 			return "C:\\Users\\" + Environment.UserName + "\\AppData\\Roaming\\.minecraft";
 		}
-		else if (Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXServer)
+		else if (GetOS() == OS.Mac)
 		{
 			return "/Users/" + Environment.UserName + "/Library/Application Support/minecraft";
 		}
-		else if (Application.platform == RuntimePlatform.LinuxPlayer || Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.LinuxServer)
+		else if (GetOS() == OS.Mac)
 		{
 			return "/home/" + Environment.UserName + "/.minecraft";
 		}
@@ -63,4 +63,32 @@ public class FileManager : MonoBehaviour
 			return null;
 		}
 	}
+
+	public OS GetOS()
+	{
+		if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsServer)
+		{
+			return OS.Windows;
+		}
+		else if (Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXServer)
+		{
+			return OS.Mac;
+		}
+		else if (Application.platform == RuntimePlatform.LinuxPlayer || Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.LinuxServer)
+		{
+			return OS.Linux;
+		}
+		else
+		{
+			return OS.Other;
+		}
+	}
+}
+
+public enum OS
+{
+	Windows,
+	Mac,
+	Linux,
+	Other
 }

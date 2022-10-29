@@ -23,21 +23,47 @@ public class GameManager : MonoBehaviour
         } 
     }
     #endregion
-    
+    #region Variables
+    [Header("References")]
     [SerializeField] private TextMeshProUGUI progressText;
-    [SerializeField] private string completedText;
+    [SerializeField] private Button openModButton;
+    
+    [Header("Directories")]
+    [SerializeField] private string modDirectory;
+    
+    [Header("Settings")]
+    [SerializeField] private bool showModButtonIfError;
 
+    [Header("Messages")]
+    [SerializeField] private string completedText;
+    [SerializeField] private string notEmptyText;
+    
+    [Space]
+    [SerializeField] private string generalInstallingText;
+    [SerializeField] private string modInstallingText;
+    [SerializeField] private string loaderInstallingText;
+    #endregion
+
+    void Start()
+    {
+        openModButton.gameObject.SetActive(false);
+    }
+    
     public void GetAndInstall()
     {
-        if (!IsDirectoryEmpty(FileManager.Instance.GetMinecraftDirectory() + "/mods") || !Directory.Exists(FileManager.Instance.GetMinecraftDirectory() + "/mods"))
+        if (!IsDirectoryEmpty(FileManager.Instance.GetMinecraftDirectory() + modDirectory) || !Directory.Exists(FileManager.Instance.GetMinecraftDirectory() + modDirectory))
         {
             progressText.color = Color.red;
-            progressText.text = "The 'mods' folder is not empty or doesn't exist.";
+            progressText.text = notEmptyText;
+            if (showModButtonIfError)
+            {
+                ShowMinecraftButton();
+            }
         }
         else
         {
             progressText.color = Color.white;
-            progressText.text = "Installing pack...";
+            progressText.text = generalInstallingText;
             FileManager.Instance.ChoosePack();
         }
     }
@@ -60,18 +86,38 @@ public class GameManager : MonoBehaviour
         if (status == Status.InstallingLoader)
         {
             progressText.color = Color.white;
-            progressText.text = "Installing Loader...";
+            progressText.text = loaderInstallingText;
         }
         else if (status == Status.InstallingMods)
         {
             progressText.color = Color.white;
-            progressText.text = "Installing mods...";
+            progressText.text = modInstallingText;
+        }
+    }
+
+    public void ShowMinecraftButton()
+    {
+        if (FileManager.Instance.GetOS() == OS.Windows)
+        {
+            openModButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            openModButton.gameObject.SetActive(false);
         }
     }
     
     public bool IsDirectoryEmpty(string path)
     {
         return !Directory.EnumerateFileSystemEntries(path).Any();
+    }
+
+    public void OpenDotMinecraft()
+    {
+        if (FileManager.Instance.GetOS() == OS.Windows)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", FileManager.Instance.GetMinecraftDirectory());
+        }
     }
 }
 
